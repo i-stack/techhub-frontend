@@ -1,0 +1,105 @@
+2025-07-14 14:22:35,491 - INFO - 🚀 掘金自动签到脚本启动
+2025-07-14 14:22:35,492 - INFO - 使用默认配置
+2025-07-14 14:22:35,493 - INFO - 检查签到状态...
+2025-07-14 14:22:36,007 - INFO - 请求 GET https://api.juejin.cn/growth_api/v1/get_today_status - 状态码: 200
+2025-07-14 14:22:36,008 - INFO - 今日签到状态: 已签到
+2025-07-14 14:22:36,009 - INFO - 今日已签到，检查抽奖...
+2025-07-14 14:22:36,009 - INFO - 获取免费抽奖次数...
+2025-07-14 14:22:36,096 - INFO - 请求 GET https://api.juejin.cn/growth_api/v1/lottery_config/get - 状态码: 200
+2025-07-14 14:22:36,096 - ERROR - JSON解析失败: Expecting value: line 1 column 1 (char 0)
+2025-07-14 14:22:36,097 - INFO - 没有免费抽奖次数
+2025-07-14 14:22:36,097 - INFO - 获取幸运值信息...
+2025-07-14 14:22:36,193 - INFO - 请求 POST https://api.juejin.cn/growth_api/v1/lottery_lucky/my_lucky - 状态码: 200
+2025-07-14 14:22:36,193 - INFO - 获取积分余额...
+2025-07-14 14:22:36,308 - INFO - 请求 GET https://api.juejin.cn/growth_api/v1/get_cur_point - 状态码: 200
+2025-07-14 14:22:36,308 - INFO - 💰 当前积分: 311209
+2025-07-14 14:22:36,309 - INFO - 🎯 幸运值: 2916
+2025-07-14 14:22:36,309 - INFO - 💰 当前积分: 311209
+2025-07-14 14:22:36,309 - INFO - 🎁 距离中奖还差: 0 积分
+2025-07-14 14:22:36,309 - INFO - ✅ 脚本执行完成
+2025-07-14 14:23:55,221 - INFO - 🚀 掘金自动签到脚本启动
+2025-07-14 14:23:55,222 - INFO - 使用默认配置
+2025-07-14 14:23:55,223 - INFO - 检查签到状态...
+2025-07-14 14:23:55,783 - INFO - 请求 GET https://api.juejin.cn/growth_api/v1/get_today_status - 状态码: 200
+2025-07-14 14:23:55,784 - INFO - 今日签到状态: 已签到
+2025-07-14 14:23:55,784 - INFO - 今日已签到，检查抽奖...
+2025-07-14 14:23:55,784 - INFO - 获取免费抽奖次数...
+2025-07-14 14:23:55,867 - INFO - 请求 GET https://api.juejin.cn/growth_api/v1/lottery_config/get - 状态码: 200
+2025-07-14 14:23:55,868 - WARNING - 响应内容为空: lottery_config/get
+2025-07-14 14:23:55,868 - WARNING - 无法获取抽奖配置，可能API已变更或需要登录
+2025-07-14 14:23:55,868 - INFO - 没有免费抽奖次数
+2025-07-14 14:23:55,869 - INFO - 获取幸运值信息...
+2025-07-14 14:23:55,969 - INFO - 请求 POST https://api.juejin.cn/growth_api/v1/lottery_lucky/my_lucky - 状态码: 200
+2025-07-14 14:23:55,969 - INFO - 获取积分余额...
+2025-07-14 14:23:56,082 - INFO - 请求 GET https://api.juejin.cn/growth_api/v1/get_cur_point - 状态码: 200
+2025-07-14 14:23:56,082 - INFO - 💰 当前积分: 311209
+2025-07-14 14:23:56,083 - INFO - 🎯 幸运值: 2916
+2025-07-14 14:23:56,083 - INFO - 💰 当前积分: 311209
+2025-07-14 14:23:56,083 - INFO - 🎁 距离中奖还差: 0 积分
+2025-07-14 14:23:56,083 - INFO - ✅ 脚本执行完成
+2025-07-14 14:27:39,484 - INFO - 🚀 掘金自动签到脚本启动
+2025-07-14 14:27:39,485 - INFO - 使用默认配置
+2025-07-14 14:27:39,485 - INFO - 检查签到状态...
+2025-07-14 14:27:40,146 - INFO - 请求 GET https://api.juejin.cn/growth_api/v1/get_today_status - 状态码: 200
+2025-07-14 14:27:40,147 - INFO - 今日签到状态: 已签到
+2025-07-14 14:27:40,147 - INFO - 今日已签到，检查抽奖...
+2025-07-14 14:27:40,147 - INFO - 获取免费抽奖次数...
+2025-07-14 14:27:40,148 - INFO - 尝试端点: lottery_config/get
+2025-07-14 14:27:40,233 - INFO - 请求 GET https://api.juejin.cn/growth_api/v1/lottery_config/get?aid=2608&uuid=7519799674821396007&spider=0&msToken=ERoYd5UeeW0a2ueEQ8WGRfvTy0pQwqQ4-73rmBsbIkgWeEBl6E4GTtvX-A-pncEkj_L9UDyTuBhSGLjLllfbc1h4qsSQ-gmXLYX4tGKOWK8FEvX9F4HAO3rkNagLH3E%253D&a_bogus=D60dkO2AMsR15jfJwhkz9b4mPxu0YW4MgZEzrQyC%252F0qC - 状态码: 200
+2025-07-14 14:27:40,233 - WARNING - 响应内容为空: lottery_config/get
+2025-07-14 14:27:40,233 - WARNING - 端点 lottery_config/get 无响应
+2025-07-14 14:27:40,234 - INFO - 尝试端点: lottery_config
+2025-07-14 14:27:40,321 - INFO - 请求 GET https://api.juejin.cn/growth_api/v1/lottery_config?aid=2608&uuid=7519799674821396007&spider=0&msToken=ERoYd5UeeW0a2ueEQ8WGRfvTy0pQwqQ4-73rmBsbIkgWeEBl6E4GTtvX-A-pncEkj_L9UDyTuBhSGLjLllfbc1h4qsSQ-gmXLYX4tGKOWK8FEvX9F4HAO3rkNagLH3E%253D&a_bogus=D60dkO2AMsR15jfJwhkz9b4mPxu0YW4MgZEzrQyC%252F0qC - 状态码: 200
+2025-07-14 14:27:40,321 - WARNING - 端点 lottery_config 返回错误: 请求路由不存在
+2025-07-14 14:27:40,321 - INFO - 尝试端点: lottery/get_config
+2025-07-14 14:27:40,407 - INFO - 请求 GET https://api.juejin.cn/growth_api/v1/lottery/get_config?aid=2608&uuid=7519799674821396007&spider=0&msToken=ERoYd5UeeW0a2ueEQ8WGRfvTy0pQwqQ4-73rmBsbIkgWeEBl6E4GTtvX-A-pncEkj_L9UDyTuBhSGLjLllfbc1h4qsSQ-gmXLYX4tGKOWK8FEvX9F4HAO3rkNagLH3E%253D&a_bogus=D60dkO2AMsR15jfJwhkz9b4mPxu0YW4MgZEzrQyC%252F0qC - 状态码: 200
+2025-07-14 14:27:40,408 - WARNING - 端点 lottery/get_config 返回错误: 请求路由不存在
+2025-07-14 14:27:40,408 - WARNING - 所有抽奖配置端点都无法访问，可能API已变更
+2025-07-14 14:27:40,409 - INFO - 没有免费抽奖次数
+2025-07-14 14:27:40,409 - INFO - 获取幸运值信息...
+2025-07-14 14:27:40,498 - INFO - 请求 POST https://api.juejin.cn/growth_api/v1/lottery_lucky/my_lucky - 状态码: 200
+2025-07-14 14:27:40,499 - INFO - 获取积分余额...
+2025-07-14 14:27:40,687 - INFO - 请求 GET https://api.juejin.cn/growth_api/v1/get_cur_point - 状态码: 200
+2025-07-14 14:27:40,687 - INFO - 💰 当前积分: 311209
+2025-07-14 14:27:40,688 - INFO - 🎯 幸运值: 2916
+2025-07-14 14:27:40,688 - INFO - 💰 当前积分: 311209
+2025-07-14 14:27:40,689 - INFO - 🎁 距离中奖还差: 0 积分
+2025-07-14 14:27:40,689 - INFO - ✅ 脚本执行完成
+2025-07-14 14:28:03,941 - INFO - 🚀 掘金自动签到脚本启动
+2025-07-14 14:28:03,942 - INFO - 使用默认配置
+2025-07-14 14:28:03,942 - INFO - 检查签到状态...
+2025-07-14 14:28:04,439 - INFO - 请求 GET https://api.juejin.cn/growth_api/v1/get_today_status - 状态码: 200
+2025-07-14 14:28:04,440 - INFO - 今日签到状态: 已签到
+2025-07-14 14:28:04,441 - INFO - 今日已签到，检查抽奖...
+2025-07-14 14:28:04,441 - INFO - 获取免费抽奖次数...
+2025-07-14 14:28:04,441 - INFO - 尝试端点: lottery_config/get
+2025-07-14 14:28:04,527 - INFO - 请求 GET https://api.juejin.cn/growth_api/v1/lottery_config/get?aid=2608&uuid=7519799674821396007&spider=0&msToken=ERoYd5UeeW0a2ueEQ8WGRfvTy0pQwqQ4-73rmBsbIkgWeEBl6E4GTtvX-A-pncEkj_L9UDyTuBhSGLjLllfbc1h4qsSQ-gmXLYX4tGKOWK8FEvX9F4HAO3rkNagLH3E%253D&a_bogus=D60dkO2AMsR15jfJwhkz9b4mPxu0YW4MgZEzrQyC%252F0qC - 状态码: 200
+2025-07-14 14:28:04,528 - WARNING - 响应内容为空: lottery_config/get
+2025-07-14 14:28:04,528 - WARNING - 端点 lottery_config/get 无响应
+2025-07-14 14:28:04,528 - INFO - 尝试端点: lottery_config
+2025-07-14 14:28:04,620 - INFO - 请求 GET https://api.juejin.cn/growth_api/v1/lottery_config?aid=2608&uuid=7519799674821396007&spider=0&msToken=ERoYd5UeeW0a2ueEQ8WGRfvTy0pQwqQ4-73rmBsbIkgWeEBl6E4GTtvX-A-pncEkj_L9UDyTuBhSGLjLllfbc1h4qsSQ-gmXLYX4tGKOWK8FEvX9F4HAO3rkNagLH3E%253D&a_bogus=D60dkO2AMsR15jfJwhkz9b4mPxu0YW4MgZEzrQyC%252F0qC - 状态码: 200
+2025-07-14 14:28:04,621 - WARNING - 端点 lottery_config 返回错误: 请求路由不存在
+2025-07-14 14:28:04,621 - INFO - 尝试端点: lottery/get_config
+2025-07-14 14:28:04,716 - INFO - 请求 GET https://api.juejin.cn/growth_api/v1/lottery/get_config?aid=2608&uuid=7519799674821396007&spider=0&msToken=ERoYd5UeeW0a2ueEQ8WGRfvTy0pQwqQ4-73rmBsbIkgWeEBl6E4GTtvX-A-pncEkj_L9UDyTuBhSGLjLllfbc1h4qsSQ-gmXLYX4tGKOWK8FEvX9F4HAO3rkNagLH3E%253D&a_bogus=D60dkO2AMsR15jfJwhkz9b4mPxu0YW4MgZEzrQyC%252F0qC - 状态码: 200
+2025-07-14 14:28:04,717 - WARNING - 端点 lottery/get_config 返回错误: 请求路由不存在
+2025-07-14 14:28:04,717 - INFO - 尝试端点: lottery/draw_config
+2025-07-14 14:28:04,801 - INFO - 请求 GET https://api.juejin.cn/growth_api/v1/lottery/draw_config?aid=2608&uuid=7519799674821396007&spider=0&msToken=ERoYd5UeeW0a2ueEQ8WGRfvTy0pQwqQ4-73rmBsbIkgWeEBl6E4GTtvX-A-pncEkj_L9UDyTuBhSGLjLllfbc1h4qsSQ-gmXLYX4tGKOWK8FEvX9F4HAO3rkNagLH3E%253D&a_bogus=D60dkO2AMsR15jfJwhkz9b4mPxu0YW4MgZEzrQyC%252F0qC - 状态码: 200
+2025-07-14 14:28:04,802 - WARNING - 端点 lottery/draw_config 返回错误: 请求路由不存在
+2025-07-14 14:28:04,802 - INFO - 尝试端点: lottery_config/draw
+2025-07-14 14:28:04,888 - INFO - 请求 GET https://api.juejin.cn/growth_api/v1/lottery_config/draw?aid=2608&uuid=7519799674821396007&spider=0&msToken=ERoYd5UeeW0a2ueEQ8WGRfvTy0pQwqQ4-73rmBsbIkgWeEBl6E4GTtvX-A-pncEkj_L9UDyTuBhSGLjLllfbc1h4qsSQ-gmXLYX4tGKOWK8FEvX9F4HAO3rkNagLH3E%253D&a_bogus=D60dkO2AMsR15jfJwhkz9b4mPxu0YW4MgZEzrQyC%252F0qC - 状态码: 200
+2025-07-14 14:28:04,889 - WARNING - 端点 lottery_config/draw 返回错误: 请求路由不存在
+2025-07-14 14:28:04,889 - INFO - 尝试端点: lottery/status
+2025-07-14 14:28:04,975 - INFO - 请求 GET https://api.juejin.cn/growth_api/v1/lottery/status?aid=2608&uuid=7519799674821396007&spider=0&msToken=ERoYd5UeeW0a2ueEQ8WGRfvTy0pQwqQ4-73rmBsbIkgWeEBl6E4GTtvX-A-pncEkj_L9UDyTuBhSGLjLllfbc1h4qsSQ-gmXLYX4tGKOWK8FEvX9F4HAO3rkNagLH3E%253D&a_bogus=D60dkO2AMsR15jfJwhkz9b4mPxu0YW4MgZEzrQyC%252F0qC - 状态码: 200
+2025-07-14 14:28:04,976 - WARNING - 端点 lottery/status 返回错误: 请求路由不存在
+2025-07-14 14:28:04,976 - WARNING - 所有抽奖配置端点都无法访问，可能API已变更
+2025-07-14 14:28:04,976 - INFO - 建议：可以暂时禁用抽奖功能，专注于签到和积分查询
+2025-07-14 14:28:04,977 - INFO - 没有免费抽奖次数或抽奖功能暂时不可用
+2025-07-14 14:28:04,977 - INFO - 获取幸运值信息...
+2025-07-14 14:28:05,071 - INFO - 请求 POST https://api.juejin.cn/growth_api/v1/lottery_lucky/my_lucky - 状态码: 200
+2025-07-14 14:28:05,071 - INFO - 获取积分余额...
+2025-07-14 14:28:05,183 - INFO - 请求 GET https://api.juejin.cn/growth_api/v1/get_cur_point - 状态码: 200
+2025-07-14 14:28:05,183 - INFO - 💰 当前积分: 311209
+2025-07-14 14:28:05,184 - INFO - 🎯 幸运值: 2916
+2025-07-14 14:28:05,184 - INFO - 💰 当前积分: 311209
+2025-07-14 14:28:05,185 - INFO - 🎁 距离中奖还差: 0 积分
+2025-07-14 14:28:05,185 - INFO - ✅ 脚本执行完成
