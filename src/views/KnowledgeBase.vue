@@ -10,7 +10,20 @@
 					<p class="page-subtitle">管理和分享你的技术知识</p>
 				</div>
 				<div class="header-actions">
-					<el-button type="primary" @click="showAddDialog = true" class="add-button">
+					<el-button 
+						v-if="authStore.hasPermission('add_knowledge')"
+						type="primary" 
+						@click="showAddDialog = true" 
+						class="add-button"
+					>
+						<el-icon><Plus /></el-icon>添加知识
+					</el-button>
+					<el-button 
+						v-else
+						type="primary" 
+						@click="showLoginPrompt" 
+						class="add-button"
+					>
 						<el-icon><Plus /></el-icon>添加知识
 					</el-button>
 				</div>
@@ -112,12 +125,24 @@
 										<el-button size="small" @click.stop="viewKnowledge(scope.row)" class="action-btn">
 											<el-icon><Document /></el-icon>查看
 										</el-button>
-										<el-button size="small" type="primary" @click.stop="editKnowledge(scope.row)" class="action-btn">
+										<el-button 
+											v-if="authStore.hasPermission('edit_knowledge')"
+											size="small" 
+											type="primary" 
+											@click.stop="editKnowledge(scope.row)" 
+											class="action-btn"
+										>
 											<el-icon><Edit /></el-icon>编辑
 										</el-button>
 									</div>
 									<div class="action-row">
-										<el-button size="small" type="danger" @click.stop="deleteKnowledge(scope.row)" class="action-btn delete-btn">
+										<el-button 
+											v-if="authStore.hasPermission('delete_knowledge')"
+											size="small" 
+											type="danger" 
+											@click.stop="deleteKnowledge(scope.row)" 
+											class="action-btn delete-btn"
+										>
 											<el-icon><Delete /></el-icon>删除
 										</el-button>
 									</div>
@@ -222,6 +247,7 @@ import {
 	Document 
 } from '@element-plus/icons-vue'
 import { CATEGORIES, DIFFICULTY_LEVELS } from '@/config/categories.js'
+import { useAuthStore } from '@/stores/auth'
 
 export default {
 	name: 'KnowledgeBase',
@@ -232,6 +258,13 @@ export default {
 		Edit,
 		Delete,
 		Document
+	},
+	setup() {
+		const authStore = useAuthStore()
+		
+		return {
+			authStore
+		}
 	},
 	data() {
 		return {
@@ -1076,6 +1109,11 @@ function Child({ onClick }) {
 					this.$message.success('删除成功')
 				}
 			})
+		},
+		showLoginPrompt() {
+			this.$message.warning('请先登录后再进行操作')
+			// 触发父组件的登录对话框
+			this.$emit('show-login')
 		},
 		addKnowledge() {
 			if (!this.newKnowledge.title || !this.newKnowledge.content) {

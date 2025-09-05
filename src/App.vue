@@ -29,9 +29,39 @@
 						<el-button @click="toggleTheme" circle class="theme-toggle">
 							<el-icon><Moon v-if="isDark" /><Sunny v-else /></el-icon>
 						</el-button>
-						<el-button type="primary" circle>
+						
+						<!-- 未登录状态 -->
+						<el-button 
+							v-if="!isLoggedIn" 
+							@click="showLoginDialog = true" 
+							circle 
+							class="user-button"
+						>
 							<el-icon><User /></el-icon>
 						</el-button>
+						
+						<!-- 已登录状态 -->
+						<el-dropdown v-else @command="handleUserCommand" class="user-dropdown">
+							<div class="user-info">
+								<el-avatar :size="32" :src="user?.avatar" class="user-avatar">
+									<el-icon><User /></el-icon>
+								</el-avatar>
+								<span class="user-name">{{ user?.nickName || user?.userName }}</span>
+								<el-icon class="dropdown-icon"><ArrowDownBold /></el-icon>
+							</div>
+							<template #dropdown>
+								<el-dropdown-menu>
+									<el-dropdown-item command="profile">
+										<el-icon><User /></el-icon>
+										个人资料
+									</el-dropdown-item>
+									<el-dropdown-item command="logout" divided>
+										<el-icon><Switch /></el-icon>
+										退出登录
+									</el-dropdown-item>
+								</el-dropdown-menu>
+							</template>
+						</el-dropdown>
 					</div>
 				</div>
 			</el-header>
@@ -41,11 +71,22 @@
 				</div>
 			</el-main>
 		</el-container>
+		
+		<!-- 登录对话框 -->
+		<LoginDialog 
+			v-model="showLoginDialog" 
+			@login-success="handleLoginSuccess" 
+		/>
 	</div>
 </template>
 
 <script>
-import { Cpu, House, Document, TrendCharts, User, Moon, Sunny } from '@element-plus/icons-vue'
+import { computed, onMounted, ref } from 'vue'
+import { ElMessage } from 'element-plus'
+import { useRouter } from 'vue-router'
+import { Cpu, House, Document, TrendCharts, User, Moon, Sunny, ArrowDownBold, Switch } from '@element-plus/icons-vue'
+import { useAuthStore } from '@/stores/auth'
+import LoginDialog from '@/components/LoginDialog.vue'
 
 export default {
 	name: 'App',
@@ -56,7 +97,46 @@ export default {
 		TrendCharts,
 		User,
 		Moon,
-		Sunny
+		Sunny,
+		ArrowDownBold,
+		Switch,
+		LoginDialog
+	},
+	setup() {
+		const authStore = useAuthStore()
+		const router = useRouter()
+		const showLoginDialog = ref(false)
+		
+		// 初始化认证状态
+		onMounted(() => {
+			authStore.initAuth()
+		})
+		
+		// 用户操作
+		const handleUserCommand = (command) => {
+			if (command === 'logout') {
+				authStore.logout()
+				ElMessage.success('已退出登录')
+			} else if (command === 'profile') {
+				// 跳转到个人资料页面
+				router.push('/profile')
+			}
+		}
+		
+		const handleLoginSuccess = () => {
+			ElMessage.success('登录成功！')
+		}
+		
+		return {
+			// 认证相关
+			user: computed(() => authStore.user),
+			isLoggedIn: computed(() => authStore.isLoggedIn),
+			showLoginDialog,
+			
+			// 用户操作
+			handleUserCommand,
+			handleLoginSuccess
+		}
 	},
 	data() {
 		return {
@@ -196,6 +276,59 @@ export default {
 .theme-toggle:hover {
 	background: var(--bg-hover);
 	border-color: var(--border-hover);
+}
+
+.user-button {
+	background: var(--bg-glass);
+	border: 1px solid var(--border-primary);
+	color: var(--text-primary);
+	transition: all 0.3s ease;
+}
+
+.user-button:hover {
+	background: var(--bg-hover);
+	border-color: var(--border-hover);
+}
+
+.user-dropdown {
+	cursor: pointer;
+}
+
+.user-info {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	padding: 4px 8px;
+	border-radius: 20px;
+	background: var(--bg-glass);
+	border: 1px solid var(--border-primary);
+	transition: all 0.3s ease;
+}
+
+.user-info:hover {
+	background: var(--bg-hover);
+	border-color: var(--border-hover);
+}
+
+.user-avatar {
+	flex-shrink: 0;
+}
+
+.user-name {
+	font-size: 14px;
+	font-weight: 500;
+	color: var(--text-primary);
+	white-space: nowrap;
+}
+
+.dropdown-icon {
+	font-size: 12px;
+	color: var(--text-secondary);
+	transition: transform 0.3s ease;
+}
+
+.user-dropdown:hover .dropdown-icon {
+	transform: rotate(180deg);
 }
 
 .app-main {

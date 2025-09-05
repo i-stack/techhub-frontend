@@ -133,6 +133,18 @@
 				</el-card>
 			</el-col>
 		</el-row>
+		
+		<!-- 评论区域 -->
+		<el-row :gutter="20" style="margin-top: 20px;">
+			<el-col :span="24">
+				<CommentSection 
+					:knowledge-id="knowledge.id"
+					:comments="comments"
+					@comment-added="handleCommentAdded"
+					@comment-liked="handleCommentLiked"
+				/>
+			</el-col>
+		</el-row>
 	</div>
 </template>
 
@@ -142,6 +154,7 @@ import { knowledgeAPI, commentAPI, favoriteAPI } from '@/services/api'
 import { marked } from 'marked'
 import hljs from 'highlight.js'
 import 'highlight.js/styles/github.css'
+import CommentSection from '@/components/CommentSection.vue'
 
 // 配置marked解析器
 marked.setOptions({
@@ -165,7 +178,8 @@ export default {
 		Star,
 		Collection,
 		View,
-		ChatDotRound
+		ChatDotRound,
+		CommentSection
 	},
 	props: {
 		id: {
@@ -364,6 +378,16 @@ export default {
 				advanced: '高级'
 			}
 			return names[difficulty] || difficulty
+		},
+		
+		// 评论相关方法
+		handleCommentAdded(comment) {
+			this.comments.unshift(comment)
+		},
+		
+		handleCommentLiked(comment) {
+			// 可以在这里添加点赞的API调用
+			console.log('评论点赞:', comment)
 		}
 	}
 }
