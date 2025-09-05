@@ -1,81 +1,135 @@
 import { defineStore } from 'pinia'
-import { knowledgeAPI, commentAPI, favoriteAPI } from '../services/api'
+import { knowledgeAPI, commentAPI, favoriteAPI } from '@/services/api'
 
 export const useKnowledgeStore = defineStore('knowledge', {
   state: () => ({
-    entries: [],
-    currentEntry: null,
+    // 知识条目列表
+    knowledgeList: [],
+    // 当前知识条目详情
+    currentKnowledge: null,
+    // 加载状态
     loading: false,
-    total: 0,
-    currentPage: 1,
-    pageSize: 10,
+    // 分页信息
+    pagination: {
+      currentPage: 1,
+      pageSize: 10,
+      total: 0
+    },
+    // 搜索条件
+    searchQuery: '',
+    // 筛选条件
     filters: {
       category: '',
       difficulty: '',
-      search: '',
-      tags: []
-    }
+      status: ''
+    },
+    // 排序条件
+    sortBy: 'createdAt',
+    sortOrder: 'desc'
   }),
 
   getters: {
-    // 按分类筛选的知识条目
-    entriesByCategory: (state) => (category) => {
-      if (!category) return state.entries
-      return state.entries.filter(entry => entry.category === category)
+    // 过滤后的知识条目列表
+    filteredKnowledge: (state) => {
+      let filtered = state.knowledgeList
+
+      // 搜索过滤
+      if (state.searchQuery) {
+        const query = state.searchQuery.toLowerCase()
+        filtered = filtered.filter(item =>
+          item.title.toLowerCase().includes(query) ||
+          item.content.toLowerCase().includes(query) ||
+          item.summary.toLowerCase().includes(query)
+        )
+      }
+
+      // 分类过滤
+      if (state.filters.category) {
+        filtered = filtered.filter(item => item.category === state.filters.category)
+      }
+
+      // 难度过滤
+      if (state.filters.difficulty) {
+        filtered = filtered.filter(item => item.difficulty === state.filters.difficulty)
+      }
+
+      // 状态过滤
+      if (state.filters.status) {
+        filtered = filtered.filter(item => item.status === state.filters.status)
+      }
+
+      return filtered
     },
 
-    // 按难度筛选的知识条目
-    entriesByDifficulty: (state) => (difficulty) => {
-      if (!difficulty) return state.entries
-      return state.entries.filter(entry => entry.difficulty === difficulty)
+    // 按分类统计
+    categoryStats: (state) => {
+      const stats = {}
+      state.knowledgeList.forEach(item => {
+        stats[item.category] = (stats[item.category] || 0) + 1
+      })
+      return Object.entries(stats).map(([category, count]) => ({
+        category,
+        count
+      }))
     },
 
-    // 搜索知识条目
-    searchEntries: (state) => (keyword) => {
-      if (!keyword) return state.entries
-      const lowerKeyword = keyword.toLowerCase()
-      return state.entries.filter(entry => 
-        entry.title.toLowerCase().includes(lowerKeyword) ||
-        entry.summary.toLowerCase().includes(lowerKeyword) ||
-        entry.content.toLowerCase().includes(lowerKeyword)
-      )
+    // 按难度统计
+    difficultyStats: (state) => {
+      const stats = {}
+      state.knowledgeList.forEach(item => {
+        stats[item.difficulty] = (stats[item.difficulty] || 0) + 1
+      })
+      return Object.entries(stats).map(([difficulty, count]) => ({
+        difficulty,
+        count
+      }))
+    },
+
+    // 热门知识条目（按点赞数排序）
+    popularKnowledge: (state) => {
+      return [...state.knowledgeList]
+        .sort((a, b) => (b.likes || 0) - (a.likes || 0))
+        .slice(0, 10)
     }
   },
 
   actions: {
-    // 获取知识条目列表
-    async fetchEntries(params = {}) {
+    // 加载知识条目列表
+    async loadKnowledgeList(params = {}) {
       this.loading = true
       try {
-        const response = await knowledgeAPI.getEntries({
-          page: this.currentPage,
-          limit: this.pageSize,
-          ...this.filters,
+        const queryParams = {
+          page: this.pagination.currentPage,
+          pageSize: this.pagination.pageSize,
+          search: this.searchQuery,
+          category: this.filters.category,
+          difficulty: this.filters.difficulty,
+          status: this.filters.status,
+          sortBy: this.sortBy,
+          sortOrder: this.sortOrder,
           ...params
-        })
-        
-        this.entries = response.data.entries
-        this.total = response.data.total
-        this.currentPage = response.data.page
-        
-        return response.data
+        }
+
+        const response = await knowledgeAPI.getEntries(queryParams)
+        this.knowledgeList = response.data || []
+        this.pagination.total = response.total || 0
       } catch (error) {
-        console.error('获取知识条目列表失败:', error)
+        console.error('加载知识条目列表失败:', error)
         throw error
       } finally {
         this.loading = false
       }
     },
 
-    // 获取单个知识条目
-    async fetchEntry(id) {
+    // 加载单个知识条目详情
+    async loadKnowledgeDetail(id) {
       this.loading = true
       try {
         const response = await knowledgeAPI.getEntry(id)
-        this.currentEntry = response.data
+        this.currentKnowledge = response.data
         return response.data
       } catch (error) {
-        console.error('获取知识条目失败:', error)
+        console.error('加载知识条目详情失败:', error)
         throw error
       } finally {
         this.loading = false
@@ -83,10 +137,12 @@ export const useKnowledgeStore = defineStore('knowledge', {
     },
 
     // 创建知识条目
-    async createEntry(data) {
+    async createKnowledge(data) {
       try {
         const response = await knowledgeAPI.createEntry(data)
-        this.entries.unshift(response.data)
+        // 添加到列表开头
+        this.knowledgeList.unshift(response.data)
+        this.pagination.total += 1
         return response.data
       } catch (error) {
         console.error('创建知识条目失败:', error)
@@ -95,15 +151,17 @@ export const useKnowledgeStore = defineStore('knowledge', {
     },
 
     // 更新知识条目
-    async updateEntry(id, data) {
+    async updateKnowledge(id, data) {
       try {
         const response = await knowledgeAPI.updateEntry(id, data)
-        const index = this.entries.findIndex(entry => entry.id === id)
+        // 更新列表中的对应项
+        const index = this.knowledgeList.findIndex(item => item.id === id)
         if (index !== -1) {
-          this.entries[index] = response.data
+          this.knowledgeList[index] = response.data
         }
-        if (this.currentEntry && this.currentEntry.id === id) {
-          this.currentEntry = response.data
+        // 更新当前知识条目
+        if (this.currentKnowledge && this.currentKnowledge.id === id) {
+          this.currentKnowledge = response.data
         }
         return response.data
       } catch (error) {
@@ -113,33 +171,18 @@ export const useKnowledgeStore = defineStore('knowledge', {
     },
 
     // 删除知识条目
-    async deleteEntry(id) {
+    async deleteKnowledge(id) {
       try {
         await knowledgeAPI.deleteEntry(id)
-        this.entries = this.entries.filter(entry => entry.id !== id)
-        if (this.currentEntry && this.currentEntry.id === id) {
-          this.currentEntry = null
+        // 从列表中移除
+        this.knowledgeList = this.knowledgeList.filter(item => item.id !== id)
+        this.pagination.total -= 1
+        // 清空当前知识条目
+        if (this.currentKnowledge && this.currentKnowledge.id === id) {
+          this.currentKnowledge = null
         }
       } catch (error) {
         console.error('删除知识条目失败:', error)
-        throw error
-      }
-    },
-
-    // 发布知识条目
-    async publishEntry(id) {
-      try {
-        const response = await knowledgeAPI.publishEntry(id)
-        const index = this.entries.findIndex(entry => entry.id === id)
-        if (index !== -1) {
-          this.entries[index] = response.data
-        }
-        if (this.currentEntry && this.currentEntry.id === id) {
-          this.currentEntry = response.data
-        }
-        return response.data
-      } catch (error) {
-        console.error('发布知识条目失败:', error)
         throw error
       }
     },
@@ -148,12 +191,14 @@ export const useKnowledgeStore = defineStore('knowledge', {
     async toggleLike(id, userId) {
       try {
         const response = await knowledgeAPI.toggleLike(id, userId)
-        const index = this.entries.findIndex(entry => entry.id === id)
-        if (index !== -1) {
-          this.entries[index].likeCount = response.data.likeCount
+        // 更新列表中的点赞数
+        const item = this.knowledgeList.find(item => item.id === id)
+        if (item) {
+          item.likes = response.data.likes
         }
-        if (this.currentEntry && this.currentEntry.id === id) {
-          this.currentEntry.likeCount = response.data.likeCount
+        // 更新当前知识条目的点赞数
+        if (this.currentKnowledge && this.currentKnowledge.id === id) {
+          this.currentKnowledge.likes = response.data.likes
         }
         return response.data
       } catch (error) {
@@ -162,25 +207,67 @@ export const useKnowledgeStore = defineStore('knowledge', {
       }
     },
 
+    // 发布知识条目
+    async publishKnowledge(id) {
+      try {
+        const response = await knowledgeAPI.publishEntry(id)
+        // 更新状态
+        const item = this.knowledgeList.find(item => item.id === id)
+        if (item) {
+          item.status = 'published'
+        }
+        if (this.currentKnowledge && this.currentKnowledge.id === id) {
+          this.currentKnowledge.status = 'published'
+        }
+        return response.data
+      } catch (error) {
+        console.error('发布知识条目失败:', error)
+        throw error
+      }
+    },
+
+    // 设置搜索条件
+    setSearchQuery(query) {
+      this.searchQuery = query
+      this.pagination.currentPage = 1
+    },
+
     // 设置筛选条件
     setFilters(filters) {
       this.filters = { ...this.filters, ...filters }
+      this.pagination.currentPage = 1
     },
 
-    // 重置筛选条件
-    resetFilters() {
-      this.filters = {
-        category: '',
-        difficulty: '',
-        search: '',
-        tags: []
-      }
+    // 设置排序条件
+    setSorting(sortBy, sortOrder) {
+      this.sortBy = sortBy
+      this.sortOrder = sortOrder
     },
 
     // 设置分页
     setPagination(page, pageSize) {
-      this.currentPage = page
-      this.pageSize = pageSize
+      this.pagination.currentPage = page
+      this.pagination.pageSize = pageSize
+    },
+
+    // 重置状态
+    resetState() {
+      this.knowledgeList = []
+      this.currentKnowledge = null
+      this.loading = false
+      this.pagination = {
+        currentPage: 1,
+        pageSize: 10,
+        total: 0
+      }
+      this.searchQuery = ''
+      this.filters = {
+        category: '',
+        difficulty: '',
+        status: ''
+      }
+      this.sortBy = 'createdAt'
+      this.sortOrder = 'desc'
     }
   }
 })
