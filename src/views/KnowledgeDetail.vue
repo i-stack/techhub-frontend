@@ -334,16 +334,16 @@ export default {
 
 .comment-author {
   font-weight: bold;
-  color: #409eff;
+  color: var(--primary-color);
 }
 
 .comment-time {
-  color: #999;
+  color: var(--text-muted);
   font-size: 12px;
 }
 
 .comment-content {
-  color: #666;
+  color: var(--text-secondary);
   line-height: 1.5;
 }
 
@@ -357,7 +357,7 @@ export default {
   display: flex;
   align-items: center;
   gap: 8px;
-  color: #666;
+  color: var(--text-secondary);
 }
 
 .related-knowledge {

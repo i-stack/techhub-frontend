@@ -282,13 +282,13 @@ export default {
 .stat-value {
   font-size: 24px;
   font-weight: bold;
-  color: #303133;
+  color: var(--text-primary);
   margin-bottom: 5px;
 }
 
 .stat-label {
   font-size: 14px;
-  color: #909399;
+  color: var(--text-muted);
 }
 
 .chart-container {
@@ -311,6 +311,6 @@ export default {
 .category-count,
 .difficulty-count {
   font-size: 14px;
-  color: #666;
+  color: var(--text-muted);
 }
 </style>

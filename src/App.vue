@@ -27,6 +27,9 @@
             </el-menu-item>
           </el-menu>
           <div class="header-actions">
+            <el-button @click="toggleTheme" circle class="theme-toggle">
+              <el-icon><Moon v-if="isDark" /><Sunny v-else /></el-icon>
+            </el-button>
             <el-button type="primary" circle>
               <el-icon><User /></el-icon>
             </el-button>
@@ -43,7 +46,7 @@
 </template>
 
 <script>
-import { Cpu, House, Document, TrendCharts, User } from '@element-plus/icons-vue'
+import { Cpu, House, Document, TrendCharts, User, Moon, Sunny } from '@element-plus/icons-vue'
 
 export default {
   name: 'App',
@@ -52,7 +55,35 @@ export default {
     House,
     Document,
     TrendCharts,
-    User
+    User,
+    Moon,
+    Sunny
+  },
+  data() {
+    return {
+      isDark: false
+    }
+  },
+  mounted() {
+    // 从localStorage读取主题设置
+    const savedTheme = localStorage.getItem('theme')
+    if (savedTheme) {
+      this.isDark = savedTheme === 'dark'
+    } else {
+      // 检测系统主题偏好
+      this.isDark = window.matchMedia('(prefers-color-scheme: dark)').matches
+    }
+    this.applyTheme()
+  },
+  methods: {
+    toggleTheme() {
+      this.isDark = !this.isDark
+      this.applyTheme()
+      localStorage.setItem('theme', this.isDark ? 'dark' : 'light')
+    },
+    applyTheme() {
+      document.documentElement.setAttribute('data-theme', this.isDark ? 'dark' : 'light')
+    }
   }
 }
 </script>
@@ -69,7 +100,7 @@ export default {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: var(--bg-primary);
   min-height: 100vh;
 }
 
@@ -79,10 +110,9 @@ export default {
 }
 
 .app-header {
-  background: rgba(255, 255, 255, 0.95);
+  background: var(--bg-card);
   backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-sm);
   position: sticky;
   top: 0;
   z-index: 1000;
@@ -108,13 +138,13 @@ export default {
 
 .logo-icon {
   font-size: 28px;
-  color: #667eea;
+  color: var(--primary-color);
   animation: pulse 2s infinite;
 }
 
 .logo-text {
   margin: 0;
-  background: linear-gradient(135deg, #667eea, #764ba2);
+  background: var(--gradient-primary);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -136,19 +166,20 @@ export default {
   gap: 6px;
   margin: 0 8px;
   padding: 0 16px;
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   transition: all 0.3s ease;
   font-weight: 500;
+  color: var(--text-secondary);
 }
 
 .menu-item:hover {
-  background: linear-gradient(135deg, #667eea, #764ba2);
+  background: var(--gradient-primary);
   color: white;
   transform: translateY(-2px);
 }
 
 .menu-item.is-active {
-  background: linear-gradient(135deg, #667eea, #764ba2);
+  background: var(--gradient-primary);
   color: white;
 }
 
@@ -156,6 +187,18 @@ export default {
   display: flex;
   align-items: center;
   gap: 12px;
+}
+
+.theme-toggle {
+  background: var(--bg-glass);
+  border: 1px solid var(--border-primary);
+  color: var(--text-primary);
+  transition: all 0.3s ease;
+}
+
+.theme-toggle:hover {
+  background: var(--bg-hover);
+  border-color: var(--border-hover);
 }
 
 .app-main {

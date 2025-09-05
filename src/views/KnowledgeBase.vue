@@ -110,20 +110,26 @@
             </el-table-column>
             <el-table-column prop="author" label="作者" width="120" />
             <el-table-column prop="createdAt" label="创建时间" width="180" />
-            <el-table-column label="操作" width="200" fixed="right">
+            <el-table-column label="操作" width="200" fixed="right" align="center">
               <template #default="scope">
-                <el-button size="small" @click="viewKnowledge(scope.row)">
-                  <el-icon><Document /></el-icon>
-                  查看
-                </el-button>
-                <el-button size="small" type="primary" @click="editKnowledge(scope.row)">
-                  <el-icon><Edit /></el-icon>
-                  编辑
-                </el-button>
-                <el-button size="small" type="danger" @click="deleteKnowledge(scope.row)">
-                  <el-icon><Delete /></el-icon>
-                  删除
-                </el-button>
+                <div class="action-buttons">
+                  <div class="action-row">
+                    <el-button size="small" @click.stop="viewKnowledge(scope.row)" class="action-btn">
+                      <el-icon><Document /></el-icon>
+                      查看
+                    </el-button>
+                    <el-button size="small" type="primary" @click.stop="editKnowledge(scope.row)" class="action-btn">
+                      <el-icon><Edit /></el-icon>
+                      编辑
+                    </el-button>
+                  </div>
+                  <div class="action-row">
+                    <el-button size="small" type="danger" @click.stop="deleteKnowledge(scope.row)" class="action-btn delete-btn">
+                      <el-icon><Delete /></el-icon>
+                      删除
+                    </el-button>
+                  </div>
+                </div>
               </template>
             </el-table-column>
           </el-table>
@@ -435,29 +441,30 @@ export default {
   gap: 12px;
   font-size: 2rem;
   font-weight: 700;
-  color: white;
+  color: var(--text-primary);
   margin: 0 0 8px 0;
 }
 
 .page-subtitle {
-  color: rgba(255, 255, 255, 0.8);
+  color: var(--text-secondary);
   font-size: 1.1rem;
   margin: 0;
 }
 
 .add-button {
-  background: linear-gradient(135deg, #667eea, #764ba2);
+  background: var(--gradient-primary);
   border: none;
   padding: 12px 24px;
   font-weight: 600;
-  border-radius: 8px;
-  box-shadow: 0 4px 16px rgba(102, 126, 234, 0.3);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-primary);
   transition: all 0.3s ease;
+  color: white;
 }
 
 .add-button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(102, 126, 234, 0.4);
+  box-shadow: 0 8px 24px rgba(37, 99, 235, 0.4);
 }
 
 /* 搜索区域样式 */
@@ -466,11 +473,12 @@ export default {
 }
 
 .search-card {
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--bg-card);
   backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 16px;
+  border: 1px solid var(--border-primary);
+  border-radius: var(--radius-xl);
   overflow: hidden;
+  box-shadow: var(--shadow-sm);
 }
 
 .search-content {
@@ -489,14 +497,15 @@ export default {
 }
 
 .reset-button {
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  color: white;
+  background: var(--bg-glass);
+  border: 1px solid var(--border-primary);
+  color: var(--text-primary);
   transition: all 0.3s ease;
 }
 
 .reset-button:hover {
-  background: rgba(255, 255, 255, 0.2);
+  background: var(--bg-hover);
+  border-color: var(--border-hover);
 }
 
 /* 知识列表区域样式 */
@@ -505,11 +514,12 @@ export default {
 }
 
 .list-card {
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--bg-card);
   backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 16px;
+  border: 1px solid var(--border-primary);
+  border-radius: var(--radius-xl);
   overflow: hidden;
+  box-shadow: var(--shadow-sm);
 }
 
 .list-header {
@@ -517,11 +527,11 @@ export default {
   justify-content: space-between;
   align-items: center;
   padding: 20px 24px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid var(--border-primary);
 }
 
 .total-count {
-  color: rgba(255, 255, 255, 0.8);
+  color: var(--text-secondary);
   font-weight: 500;
 }
 
@@ -537,13 +547,13 @@ export default {
 }
 
 .knowledge-table :deep(.el-table__header) {
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--bg-hover);
 }
 
 .knowledge-table :deep(.el-table__header th) {
   background: transparent;
-  color: white;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--text-primary);
+  border-bottom: 1px solid var(--border-primary);
   font-weight: 600;
 }
 
@@ -553,16 +563,16 @@ export default {
 }
 
 .knowledge-table :deep(.el-table__body tr:hover) {
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--bg-hover);
 }
 
 .knowledge-table :deep(.el-table__body td) {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-  color: white;
+  border-bottom: 1px solid var(--border-secondary);
+  color: var(--text-primary);
 }
 
 .knowledge-table :deep(.even-row) {
-  background: rgba(255, 255, 255, 0.02);
+  background: var(--bg-hover);
 }
 
 .knowledge-table :deep(.odd-row) {
@@ -576,18 +586,18 @@ export default {
 .title-link {
   font-size: 1rem;
   font-weight: 600;
-  color: #667eea;
+  color: var(--primary-color);
   text-decoration: none;
   transition: all 0.3s ease;
 }
 
 .title-link:hover {
-  color: #764ba2;
+  color: var(--primary-dark);
   text-decoration: underline;
 }
 
 .title-excerpt {
-  color: rgba(255, 255, 255, 0.6);
+  color: var(--text-muted);
   font-size: 0.9rem;
   margin: 4px 0 0 0;
   line-height: 1.4;
@@ -607,21 +617,23 @@ export default {
 }
 
 .knowledge-card {
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--bg-card);
   backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 12px;
+  border: 1px solid var(--border-primary);
+  border-radius: var(--radius-lg);
   padding: 20px;
   cursor: pointer;
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
+  box-shadow: var(--shadow-sm);
 }
 
 .knowledge-card:hover {
   transform: translateY(-4px);
-  background: rgba(255, 255, 255, 0.15);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  background: var(--bg-hover);
+  box-shadow: var(--shadow-md);
+  border-color: var(--border-hover);
 }
 
 .knowledge-card::before {
@@ -631,7 +643,7 @@ export default {
   left: 0;
   right: 0;
   height: 3px;
-  background: linear-gradient(135deg, #667eea, #764ba2);
+  background: var(--gradient-primary);
 }
 
 .card-header {
@@ -644,7 +656,7 @@ export default {
 .card-title {
   font-size: 1.1rem;
   font-weight: 600;
-  color: white;
+  color: var(--text-primary);
   margin: 0;
   flex: 1;
   line-height: 1.4;
@@ -657,7 +669,7 @@ export default {
 }
 
 .card-content {
-  color: rgba(255, 255, 255, 0.8);
+  color: var(--text-secondary);
   line-height: 1.5;
   margin: 0 0 16px 0;
   font-size: 0.9rem;
@@ -676,33 +688,82 @@ export default {
 }
 
 .author {
-  color: rgba(255, 255, 255, 0.7);
+  color: var(--text-muted);
   font-size: 0.85rem;
   font-weight: 500;
 }
 
 .date {
-  color: rgba(255, 255, 255, 0.5);
+  color: var(--text-disabled);
   font-size: 0.8rem;
 }
 
+/* 表格操作按钮样式 */
+.action-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.action-row {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  width: 100%;
+}
+
+.action-row:last-child {
+  justify-content: center;
+}
+
+.action-btn {
+  min-width: 60px;
+  height: 28px;
+  font-size: 12px;
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  flex: 1;
+}
+
+.action-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+.action-btn .el-icon {
+  margin-right: 4px;
+  font-size: 14px;
+}
+
+.delete-btn {
+  flex: 1;
+  min-width: 60px;
+}
+
+/* 卡片操作按钮样式 */
 .card-actions {
   display: flex;
   gap: 6px;
+  align-items: center;
 }
 
 /* 对话框样式优化 */
 :deep(.el-dialog) {
-  background: rgba(255, 255, 255, 0.95);
+  background: var(--bg-card);
   backdrop-filter: blur(20px);
-  border-radius: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--border-primary);
+  box-shadow: var(--shadow-lg);
 }
 
 :deep(.el-dialog__header) {
-  background: linear-gradient(135deg, #667eea, #764ba2);
+  background: var(--gradient-primary);
   color: white;
-  border-radius: 16px 16px 0 0;
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
   padding: 20px 24px;
 }
 
@@ -771,6 +832,21 @@ export default {
     padding: 0 16px 16px;
   }
   
+  .action-buttons {
+    gap: 4px;
+  }
+  
+  .action-row {
+    gap: 4px;
+  }
+  
+  .action-btn {
+    min-width: 50px;
+    height: 30px;
+    font-size: 11px;
+    padding: 3px 6px;
+  }
+  
   .search-content {
     padding: 16px;
   }
@@ -783,6 +859,26 @@ export default {
   
   .table-view {
     padding: 0 16px 16px;
+  }
+  
+  .action-buttons {
+    gap: 3px;
+  }
+  
+  .action-row {
+    gap: 3px;
+  }
+  
+  .action-btn {
+    min-width: 45px;
+    height: 26px;
+    font-size: 10px;
+    padding: 2px 4px;
+  }
+  
+  .action-btn .el-icon {
+    margin-right: 2px;
+    font-size: 12px;
   }
   
   .card-view {
