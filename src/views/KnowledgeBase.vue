@@ -35,17 +35,18 @@
 					</div>
 					<div class="filter-bar">
 						<el-select v-model="selectedCategory" placeholder="选择分类" clearable>
-							<el-option label="全部" value="" />
-							<el-option label="前端" value="frontend" />
-							<el-option label="后端" value="backend" />
-							<el-option label="数据库" value="database" />
-							<el-option label="DevOps" value="devops" />
+							<el-option 
+								v-for="category in categories" 
+								:key="category.value" 
+								:label="category.label" 
+								:value="category.value" />
 						</el-select>
 						<el-select v-model="selectedDifficulty" placeholder="选择难度" clearable>
-							<el-option label="全部" value="" />
-							<el-option label="初级" value="beginner" />
-							<el-option label="中级" value="intermediate" />
-							<el-option label="高级" value="advanced" />
+							<el-option 
+								v-for="level in difficultyLevels" 
+								:key="level.value" 
+								:label="level.label" 
+								:value="level.value" />
 						</el-select>
 						<el-button @click="resetFilters" class="reset-button">
 							<el-icon><Refresh /></el-icon>重置
@@ -177,17 +178,22 @@
 				</el-form-item>
 				<el-form-item label="分类">
 					<el-select v-model="newKnowledge.category" placeholder="选择分类">
-						<el-option label="前端" value="frontend" />
-						<el-option label="后端" value="backend" />
-						<el-option label="数据库" value="database" />
-						<el-option label="DevOps" value="devops" />
+						<el-option 
+							v-for="category in categories.filter(c => c.value !== '')" 
+							:key="category.value" 
+							:label="category.label" 
+							:value="category.value" 
+						/>
 					</el-select>
 				</el-form-item>
 				<el-form-item label="难度">
 					<el-select v-model="newKnowledge.difficulty" placeholder="选择难度">
-						<el-option label="初级" value="beginner" />
-						<el-option label="中级" value="intermediate" />
-						<el-option label="高级" value="advanced" />
+						<el-option 
+							v-for="level in difficultyLevels.filter(l => l.value !== '')" 
+							:key="level.value" 
+							:label="level.label" 
+							:value="level.value" 
+						/>
 					</el-select>
 				</el-form-item>
 				<el-form-item label="内容">
@@ -215,6 +221,7 @@ import {
 	Delete, 
 	Document 
 } from '@element-plus/icons-vue'
+import { CATEGORIES, DIFFICULTY_LEVELS } from '@/config/categories.js'
 
 export default {
 	name: 'KnowledgeBase',
@@ -234,6 +241,9 @@ export default {
 		selectedDifficulty: '',
 		viewMode: 'table',
 		showAddDialog: false,
+		// 配置数据
+		categories: CATEGORIES,
+		difficultyLevels: DIFFICULTY_LEVELS,
 		newKnowledge: {
 			title: '',
 			category: '',
@@ -1027,7 +1037,10 @@ function Child({ onClick }) {
 			return rowIndex % 2 === 0 ? 'even-row' : 'odd-row'
 		},
 		viewKnowledge(item) {
-			this.$router.push(`/knowledge/${item.id}`)
+			this.$router.push({
+				path: `/knowledge/${item.id}`,
+				state: { knowledgeData: item }
+			})
 		},
 		getContentExcerpt(content) {
 			if (!content) return ''
